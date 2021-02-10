@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MVVMExample</string>
+
+    <string name="note_add">Add note</string>
+    <string name="note_save">Save</string>
+    <string name="note_delete_all">Delete all notes</string>
+
+    <string name="hint_title">Title</string>
+    <string name="hint_description">Description</string>
+
+    <string name="priority">Priority</string>
+
+    <string name="toast_note_added">Note added</string>
+    <string name="toast_note_updated">Note updated</string>
+    <string name="toast_note_saved">Note saved</string>
+    <string name="toast_note_not_saved">Note not saved</string>
+    <string name="toast_note_deleted">Note deleted</string>
+    <string name="toast_note_all_deleted">All notes deleted</string>
+    <string name="toast_note_cant_be_updated">Note can\'t be updated</string>
+    <string name="toast_no_title_or_description">Please insert title and description</string>
+</resources>
