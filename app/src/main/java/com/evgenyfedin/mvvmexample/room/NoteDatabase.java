@@ -1,7 +1,7 @@
 package com.evgenyfedin.mvvmexample.room;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -9,7 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.lang.ref.WeakReference;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Database(entities = Note.class, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
@@ -33,25 +34,39 @@ public abstract class NoteDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
+            populateDbRx();
+//            new PopulateDbAsyncTask(instance).execute();
         }
     };
 
-    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private NoteDao noteDao;
-
-        private PopulateDbAsyncTask(NoteDatabase db) {
-            noteDao = db.noteDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
+    private static void populateDbRx() {
+        Log.e("debug:", "Start first time... generate DB data");
+        Observable.fromCallable(() -> {
+            NoteDao noteDao = instance.noteDao();
             noteDao.insert(new Note("Title 1", "Description 1", 1));
             noteDao.insert(new Note("Title 2", "Description 2", 2));
             noteDao.insert(new Note("Title 3", "Description 3", 3));
             return null;
-        }
+        })
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
+
+//    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+//
+//        private NoteDao noteDao;
+//
+//        private PopulateDbAsyncTask(NoteDatabase db) {
+//            noteDao = db.noteDao();
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            noteDao.insert(new Note("Title 1", "Description 1", 1));
+//            noteDao.insert(new Note("Title 2", "Description 2", 2));
+//            noteDao.insert(new Note("Title 3", "Description 3", 3));
+//            return null;
+//        }
+//    }
 
 }
