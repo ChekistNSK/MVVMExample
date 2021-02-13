@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -45,9 +46,8 @@ public class NoteRepository {
     }
 
     private void insertNoteRx(Note note) {
-        Observable.fromCallable(() -> {
+        Completable.fromRunnable(() -> {
             noteDao.insert(note);
-            return null;
         })
                 .onErrorComplete()
                 .subscribeOn(Schedulers.io())
@@ -55,9 +55,8 @@ public class NoteRepository {
     }
 
     private void updateNoteRx(Note note) {
-        Observable.fromCallable(() -> {
+        Completable.fromRunnable(() -> {
             noteDao.update(note);
-            return null;
         })
                 .onErrorComplete()
                 .subscribeOn(Schedulers.io())
@@ -65,9 +64,8 @@ public class NoteRepository {
     }
 
     private void deleteNoteRx(Note note) {
-        Observable.fromCallable(() -> {
+        Completable.fromRunnable(() -> {
             noteDao.delete(note);
-            return null;
         })
                 .onErrorComplete()
                 .subscribeOn(Schedulers.io())
@@ -75,9 +73,8 @@ public class NoteRepository {
     }
 
     private void deleteAllNotesRx() {
-        Observable.fromCallable(() -> {
+        Completable.fromRunnable(() -> {
             noteDao.deleteAllNotes();
-            return null;
         })
                 .onErrorComplete()
                 .subscribeOn(Schedulers.io())

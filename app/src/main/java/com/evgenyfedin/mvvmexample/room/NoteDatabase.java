@@ -9,6 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -41,13 +42,13 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     private static void populateDbRx() {
         Log.e("debug:", "Start first time... generate DB data");
-        Observable.fromCallable(() -> {
+        Completable.fromRunnable(() -> {
             NoteDao noteDao = instance.noteDao();
             noteDao.insert(new Note("Title 1", "Description 1", 1));
             noteDao.insert(new Note("Title 2", "Description 2", 2));
             noteDao.insert(new Note("Title 3", "Description 3", 3));
-            return null;
         })
+                .onErrorComplete()
                 .subscribeOn(Schedulers.io())
                 .subscribe();
     }
