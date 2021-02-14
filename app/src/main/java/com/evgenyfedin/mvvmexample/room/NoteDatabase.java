@@ -42,13 +42,12 @@ public abstract class NoteDatabase extends RoomDatabase {
 
     private static void populateDbRx() {
         Log.e("debug:", "Start first time... generate DB data");
-        Completable.fromRunnable(() -> {
+        Completable.fromAction(() -> {
             NoteDao noteDao = instance.noteDao();
             noteDao.insert(new Note("Title 1", "Description 1", 1));
             noteDao.insert(new Note("Title 2", "Description 2", 2));
             noteDao.insert(new Note("Title 3", "Description 3", 3));
         })
-                .onErrorComplete()
                 .subscribeOn(Schedulers.io())
                 .subscribe();
     }

@@ -46,7 +46,7 @@ public class NoteRepository {
     }
 
     private void insertNoteRx(Note note) {
-        Completable.fromRunnable(() -> {
+        Completable.fromAction(() -> {
             noteDao.insert(note);
         })
                 .onErrorComplete()
@@ -55,7 +55,7 @@ public class NoteRepository {
     }
 
     private void updateNoteRx(Note note) {
-        Completable.fromRunnable(() -> {
+        Completable.fromAction(() -> {
             noteDao.update(note);
         })
                 .onErrorComplete()
@@ -64,7 +64,7 @@ public class NoteRepository {
     }
 
     private void deleteNoteRx(Note note) {
-        Completable.fromRunnable(() -> {
+        Completable.fromAction(() -> {
             noteDao.delete(note);
         })
                 .onErrorComplete()
@@ -73,7 +73,7 @@ public class NoteRepository {
     }
 
     private void deleteAllNotesRx() {
-        Completable.fromRunnable(() -> {
+        Completable.fromAction(() -> {
             noteDao.deleteAllNotes();
         })
                 .onErrorComplete()
